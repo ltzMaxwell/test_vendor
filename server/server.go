@@ -1,11 +1,23 @@
 package main
 
 import (
-	"github.com/yeeuu/echoic"
+	"fmt"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
+func simpleHandler(res http.ResponseWriter, req *http.Request) {
+	fmt.Println("hello")
+}
+func StartServer() {
+
+	r := mux.NewRouter()
+	//post request
+	r.HandleFunc("/sayhi", simpleHandler)
+
+	http.Handle("/", r)
+	http.ListenAndServe(":9091", nil)
+}
 func main() {
-	e := echoic.New()
-	e.SetDebug(true)
-	e.Run("127.0.0.1:4321")
+	StartServer()
 }
